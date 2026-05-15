@@ -122,7 +122,6 @@
 </div>
 
 <script>
-// 完整 81 組聯合數字數據庫
 const COMBINATION_DB = {
     "112": "做事矛盾,糾結,容易半途而廢,虎頭蛇尾,說一套做一套,多讀書,多突破自我,適合晚婚。",
     "123": "說話不經過大腦,比較感性,懂得察言觀色,反應快,給人感覺圓滑。在意別人說話,好心辦不了好事,善變,適合講師。",
@@ -226,9 +225,20 @@ function startAnalysis() {
         const res2 = solve(d2);
         html += renderBox(2, res2);
         document.getElementById('pGrid').classList.add('dual');
+        
+        // 契合度計算與形容文字
         const score = 100 - (Math.abs(res1.n7 - res2.n7) * 8);
+        let comment = "";
+        if (score >= 90) comment = "你們是命定般的靈魂伴侶，能量極度契合，溝通無礙且能互相成就，是難能可貴的絕佳組合。";
+        else if (score >= 75) comment = "雙方性格互補且充滿吸引力，雖然偶有磨合，但只要彼此包容，便能建立穩定且深厚的情感連結。";
+        else if (score >= 55) comment = "你們的關係充滿火花，但也伴隨著挑戰。建議多傾聽對方的內心需求，用耐心與智慧來化解性格差異。";
+        else comment = "兩人的性格特質較為迥異，相處時需要更多的尊重與空間，建議以朋友的角度出發，慢慢建立默契。";
+
         document.getElementById('matchCard').style.display = 'block';
-        document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3>`;
+        document.getElementById('matchCard').innerHTML = `
+            <h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3>
+            <p style="font-size:0.9rem; line-height:1.6; color:#eee; padding:0 15px; margin-top:10px;">${comment}</p>
+        `;
     } else {
         document.getElementById('pGrid').classList.remove('dual');
         document.getElementById('matchCard').style.display = 'none';
@@ -279,7 +289,7 @@ function renderBox(id, res) {
                 <tr>${["金","木","水","火","土"].map(k => `<td class="${res.sc[k]<3?'low-score':''}">${res.sc[k]}</td>`).join('')}</tr>
             </table>
 
-            <a href="https://wa.me/85263870731" class="whatsapp-btn" target="_blank">詳細解說或訂造專屬五行水晶</a>
+            <a href="https://wa.me/85263870731" class="whatsapp-btn" target="_blank">詳細解說或訂造五行水晶</a>
         </div>`;
 }
 </script>
