@@ -216,7 +216,7 @@ function startAnalysis() {
         let comment = score >= 90 ? "你們是命定般的靈魂伴侶，能量極度契合，溝通無礙且能互相成就。" :
                       score >= 75 ? "雙方性格互補且充滿吸引力，只要彼此包容，便能建立深厚情感連結。" :
                       score >= 55 ? "關係充滿火花但也伴隨挑戰。建議多傾聽對方需求，用耐心化解差異。" :
-                                    "性格特質較為迥異，相處需要更多尊重與空間，建議先以朋友角度出發。";
+                                    "性格特質較為迥異，相處需要更多尊重與空間，建議先以朋友關係發展。";
         document.getElementById('matchCard').style.display = 'block';
         document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3><p style="font-size:0.9rem;">${comment}</p>`;
     } else {
