@@ -134,7 +134,7 @@ function solve(dStr) {
     let sc = {"金":0,"木":0,"水":0,"火":0,"土":0};
     const ref = {'1':'金','6':'金','4':'木','9':'木','2':'水','7':'水','3':'火','8':'火','5':'土','0':'土'};
     [n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,p1,p2,p3,e1,e2,e3].forEach(x => { if(ref[x]) sc[ref[x]]++; });
-    return { n7, n8, n9, n10, p1, p2, p3, e1, e2, e3, sc };
+    return { n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, p1, p2, p3, e1, e2, e3, sc };
 }
 function startAnalysis() {
     const d1 = document.getElementById('date1').value, d2 = document.getElementById('date2').value;
@@ -144,11 +144,8 @@ function startAnalysis() {
         const res2 = solve(d2); html += renderBox(2, res2);
         document.getElementById('pGrid').classList.add('dual');
         const score = 100 - (Math.abs(res1.n7 - res2.n7) * 8);
-        let cmt = score >= 90 ? "你們是命定般的靈魂伴侶，能量極度契合，溝通無礙且能互相成就。" :
-                  score >= 75 ? "雙方性格互補且充滿吸引力，只要彼此包容，便能建立深厚連結。" :
-                  score >= 55 ? "關係充滿火花但也伴隨挑戰。建議多傾聽對方需求，用耐心化解差異。" : "性格特質迥異，相處需要更多尊重與空間，建議先以朋友角度出發。";
         document.getElementById('matchCard').style.display = 'block';
-        document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3><p style="font-size:0.9rem;">${cmt}</p>`;
+        document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3>`;
     } else { document.getElementById('pGrid').classList.remove('dual'); document.getElementById('matchCard').style.display = 'none'; }
     document.getElementById('pGrid').innerHTML = html; document.getElementById('resultsArea').style.display = 'block';
 }
@@ -163,7 +160,14 @@ function renderBox(id, res) {
     return `
         <div class="person-box">
             <div style="background:var(--main-purple); color:#444; padding:4px 15px; border-radius:10px; font-size:0.8rem; margin-bottom:10px; font-weight:bold; display:inline-block;">對象 ${id===1?'A':'B'}</div>
-            <div class="map"><div class="row">${bx(res.n7, 'main-num')}</div><div class="row">${bx(res.n8)+bx(res.n9)}</div></div>
+            <div class="map">
+                <div class="row">${bx(res.n1)+bx(res.n2)+bx(res.n3)+bx(res.n4)}</div>
+                <div class="row">${bx(res.n5)+bx(res.n6)}</div>
+                <div class="row">${bx(res.n7, 'main-num')}</div>
+                <div class="row">${bx(res.n8)+bx(res.n9)}</div>
+                <div class="row">${bx(res.n10)}</div>
+                <div class="row" style="margin-top:20px;">${bx(res.p3)+bx(res.p2)+bx(res.p1)} &nbsp;&nbsp; ${bx(res.e1)+bx(res.e2)+bx(res.e3)}</div>
+            </div>
             <div class="desc-box core-desc">
                 <div class="desc-title" style="color:#FF7675;">🌟 中心位人格特質</div>
                 <div style="font-weight:bold; font-size:1rem; margin-bottom:5px;">${core.t}</div>
@@ -183,7 +187,7 @@ function renderBox(id, res) {
                 <tr><th>金</th><th>木</th><th>水</th><th>火</th><th>土</th></tr>
                 <tr>${["金","木","水","火","土"].map(k => `<td class="${res.sc[k]<3?'low-score':''}">${res.sc[k]}</td>`).join('')}</tr>
             </table>
-            <a href="https://wa.me/85263870731" class="whatsapp-btn" target="_blank">詳細解說或訂造專屬五行水晶</a>
+            <a href="https://wa.me/85263870731" class="whatsapp-btn" target="_blank">詳細解說或訂造五行水晶</a>
         </div>`;
 }
 </script>
