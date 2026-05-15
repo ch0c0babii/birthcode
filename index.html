@@ -23,7 +23,7 @@
         }
 
         body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 200%; height: 200%;
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)), 
                               radial-gradient(1.5px 1.5px at 100px 150px, #eee, rgba(0,0,0,0));
             background-size: 300px 300px; animation: move 120s linear infinite; opacity: 0.3; z-index: -1;
@@ -32,35 +32,41 @@
 
         .card { 
             background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); 
-            padding: 25px; border-radius: 25px; width: 100%; max-width: 900px;
+            padding: 20px; border-radius: 25px; width: 100%; max-width: 900px;
             border: 1px solid rgba(255, 255, 255, 0.15); box-sizing: border-box;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin: 20px 0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin: 10px 0;
         }
 
         .input-group { 
             display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;
-            background: rgba(0, 0, 0, 0.4); padding: 20px; border-radius: 18px;
+            background: rgba(0, 0, 0, 0.4); padding: 15px; border-radius: 18px;
         }
-        input { font-family: var(--font-family); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: #000; color: #fff; font-size: 16px; outline: none; }
+        input { font-family: var(--font-family); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: #000; color: #fff; font-size: 16px; outline: none; width: 100%; box-sizing: border-box; }
         button.primary-btn { font-family: var(--font-family); background: var(--main-purple); color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; box-shadow: 0 0 15px rgba(108, 92, 231, 0.4); }
-        button.primary-btn:hover { background: #5649c0; transform: translateY(-2px); box-shadow: 0 0 20px rgba(108, 92, 231, 0.6); }
 
-        .people-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        .people-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 768px) { .people-grid.dual { grid-template-columns: 1fr 1fr; } }
 
-        .person-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
+        .person-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
         
-        .map { display: flex; flex-direction: column; align-items: center; margin: 15px 0; }
-        .row { display: flex; gap: 10px; margin: 5px 0; }
+        .map { display: flex; flex-direction: column; align-items: center; margin: 10px 0; }
+        .row { display: flex; gap: 8px; margin: 4px 0; }
         .box { 
             width: 42px; height: 42px; 
             border: 1.5px solid var(--neon-blue); 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 1.2rem; border-radius: 10px; font-weight: bold; 
+            font-size: 1.1rem; border-radius: 10px; font-weight: bold; 
             background: rgba(0, 210, 255, 0.05);
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+            box-shadow: 0 0 8px rgba(0, 210, 255, 0.2);
             color: var(--neon-blue);
         }
+        
+        /* 手機版格子縮小，防止爆開 */
+        @media (max-width: 480px) {
+            .box { width: 34px; height: 34px; font-size: 1rem; }
+            .row { gap: 5px; }
+        }
+
         .main-num { 
             border: 2.5px solid var(--accent-pink); 
             color: var(--accent-pink); 
@@ -68,37 +74,39 @@
             box-shadow: 0 0 15px rgba(239, 87, 119, 0.4); 
         }
 
-        .extra-section { display: flex; justify-content: space-around; font-size: 0.8rem; color: #aaa; margin: 20px 0; text-align: center; }
-        .extra-label { margin-top: 8px; color: #eee; font-weight: bold; }
+        .extra-section { display: flex; justify-content: space-around; gap: 10px; margin: 15px 0; }
+        .extra-label { margin-top: 5px; color: #aaa; font-size: 0.75rem; text-align: center; }
+
+        /* 手機版：伴侶/子女/晚年改為垂直排列，避免重疊 */
+        @media (max-width: 600px) {
+            .extra-section { flex-direction: column; align-items: center; gap: 15px; }
+        }
 
         .el-table { width: 100%; border-collapse: collapse; margin-top: 15px; border-radius: 10px; overflow: hidden; }
-        .el-table th { background: rgba(255,255,255,0.1); padding: 10px; border: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: #ddd; }
-        .el-table td { border: 1px solid rgba(255,255,255,0.1); padding: 12px; text-align: center; font-size: 1.2rem; font-weight: bold; }
-        .low-score { background: rgba(239, 87, 119, 0.15); color: #ff7675; border: 1px solid rgba(239, 87, 119, 0.3) !important; }
+        .el-table th { background: rgba(255,255,255,0.1); padding: 8px; border: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: #ddd; }
+        .el-table td { border: 1px solid rgba(255,255,255,0.1); padding: 10px; text-align: center; font-size: 1.1rem; font-weight: bold; }
+        .low-score { background: rgba(239, 87, 119, 0.15); color: #ff7675; }
 
-        .desc-box { margin-top: 20px; padding: 18px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; font-size: 0.9rem; line-height: 1.7; border-left: 5px solid var(--main-purple); color: #eee; }
-        .desc-title { color: var(--main-purple); font-weight: bold; margin-bottom: 5px; font-size: 1rem; border-bottom: 1px solid rgba(108, 92, 231, 0.3); padding-bottom: 5px; }
-        .desc-content { margin-bottom: 12px; }
+        .desc-box { margin-top: 15px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; font-size: 0.85rem; line-height: 1.6; border-left: 4px solid var(--main-purple); color: #eee; }
+        .desc-title { color: var(--main-purple); font-weight: bold; margin-bottom: 5px; font-size: 0.95rem; border-bottom: 1px solid rgba(108, 92, 231, 0.2); padding-bottom: 3px; }
         
-        .crystal-box { margin-top: 15px; padding: 15px; background: rgba(254, 202, 87, 0.05); border-radius: 12px; border: 1px solid rgba(254, 202, 87, 0.2); flex-grow: 1; }
-        .crystal-tag { display: inline-block; background: rgba(254, 202, 87, 0.1); padding: 5px 12px; border-radius: 8px; margin: 4px; font-size: 0.85rem; color: var(--gold); border: 1px solid rgba(254, 202, 87, 0.3); font-weight: bold; }
+        .crystal-box { margin-top: 15px; padding: 12px; background: rgba(254, 202, 87, 0.05); border-radius: 12px; border: 1px solid rgba(254, 202, 87, 0.2); }
+        .crystal-tag { display: inline-block; background: rgba(254, 202, 87, 0.1); padding: 4px 10px; border-radius: 8px; margin: 3px; font-size: 0.8rem; color: var(--gold); border: 1px solid rgba(254, 202, 87, 0.3); font-weight: bold; }
         
         .whatsapp-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            margin-top: 20px; padding: 14px 10px; background: #25D366; color: white;
-            text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 0.95rem;
-            transition: 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-            text-align: center; line-height: 1.2;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 15px; padding: 12px 10px; background: #25D366; color: white;
+            text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 0.9rem;
+            transition: 0.3s; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+            text-align: center; line-height: 1.3;
         }
-        .whatsapp-btn:hover { background: #128C7E; transform: scale(1.02); }
-
-        .match-card { margin-top: 30px; text-align: center; background: rgba(108, 92, 231, 0.1); padding: 30px; border-radius: 25px; border: 1px solid var(--main-purple); box-shadow: 0 0 30px rgba(108, 92, 231, 0.2); }
+        .match-card { margin-top: 25px; text-align: center; background: rgba(108, 92, 231, 0.1); padding: 20px; border-radius: 20px; border: 1px solid var(--main-purple); }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2 style="text-align:center; margin-top:0; letter-spacing: 2px; text-shadow: 0 0 15px rgba(255,255,255,0.2);">✨ Chocotarot:生命密碼分析系統 ✨</h2>
+    <h2 style="text-align:center; margin-top:0; letter-spacing: 1px; font-size: 1.3rem; text-shadow: 0 0 10px rgba(255,255,255,0.2);">✨ Chocotarot:生命密碼分析系統 ✨</h2>
     <div class="input-group">
         <input type="date" id="date1">
         <input type="date" id="date2" placeholder="生日 B (用於合盤分析)">
@@ -114,7 +122,7 @@
 <script>
 const PERSONALITY_DETAIL = {
     1: { title: "【1號領袖】開創與獨立之星", trait: "天生的開拓者，擁有極強的自信與行動力。", strength: "意志堅定、反應靈敏、具冒險精神。", lesson: "易過於自我中心。需學習「圓融」與「傾聽」。" },
-    2: { title: "【2號溝通】和諧與合作之星", trait: "心思細膩、對情緒有極高敏銳度，是最佳協調者。", strength: "具同理心、擅長社交、處事圓滑。", lesson: "容易優柔寡斷時。需學習「獨立決策」。" },
+    2: { title: "【2號溝通】和諧與合作之星", trait: "心思細膩、對情緒有極高敏銳度，是最佳協調者。", strength: "具同理心、擅長社交、處事圓滑。", lesson: "容易優柔寡斷。需學習「獨立決策」。" },
     3: { title: "【3號創意】熱情與表達之星", trait: "充滿好奇心，擁有感染他人的能量與創意。", strength: "口才極佳、擅長營造氣氛、樂觀積極。", lesson: "情緒起伏大。需學習「專注」與「耐性」。" },
     4: { title: "【4號穩定】務實與秩序之星", trait: "追求安全感，做事條理分明，對責任極其看重。", strength: "執行力強、邏輯嚴密、值得信賴。", lesson: "容易墨守成規。需學習「靈活變通」。" },
     5: { title: "【5號冒險】自由與變革之星", trait: "熱愛自由，擁有極強的適應力與探索慾望。", strength: "口才出眾、反應快、多才多藝。", lesson: "缺乏穩定性。需學習「紀律」與「深耕」。" },
@@ -125,11 +133,7 @@ const PERSONALITY_DETAIL = {
 };
 
 const CRYSTAL_DB = {
-    '金': ['白水晶', '鈦晶', '閃靈鑽', '白幽靈'],
-    '木': ['綠幽靈', '葡萄石', '天河石', '綠髮晶'],
-    '水': ['黑曜石', '海藍寶', '黑髮晶', '藍虎眼'], 
-    '火': ['紫水晶', '粉晶', '紅紋石', '草莓晶'],
-    '土': ['黃水晶', '茶晶', '虎眼石', '金運石']
+    '金': ['白水晶', '鈦晶'], '木': ['綠幽靈', '天河石'], '水': ['黑曜石', '海藍寶'], '火': ['紫水晶', '粉晶'], '土': ['黃水晶', '茶晶']
 };
 
 function getS(n) { let s = String(n).split('').reduce((a,b)=>Number(a)+Number(b),0); return s > 9 ? getS(s) : s; }
@@ -171,16 +175,13 @@ function renderBox(id, res) {
     const bx = (v, c='') => `<div class="box ${c}">${v}</div>`;
     const low = Object.keys(res.sc).filter(k => res.sc[k] < 3);
     const p = PERSONALITY_DETAIL[res.n7];
-    let cryHtml = low.map(k => {
-        let selected = [...CRYSTAL_DB[k]].sort(() => 0.5 - Math.random()).slice(0, 2);
-        return `<div style="margin-bottom:8px;"><b>${k}屬性：</b>${selected.map(c => `<span class="crystal-tag">${c}</span>`).join('')}</div>`;
-    }).join('');
+    let cryHtml = low.map(k => CRYSTAL_DB[k].map(c => `<span class="crystal-tag">${c}</span>`).join('')).join('');
 
     const waMsg = encodeURIComponent(`你好！我剛剛進行了生命密碼分析（生日：${res.dateStr}），想進一步查詢更詳細的解說及訂造個人專屬的五行水晶。`);
 
     return `
         <div class="person-box">
-            <div style="background:var(--main-purple); display:inline-block; padding:5px 15px; border-radius:12px; font-size:0.85rem; margin-bottom:20px; font-weight:bold;">對象 ${id===1?'A':'B'}</div>
+            <div style="background:var(--main-purple); display:inline-block; padding:4px 12px; border-radius:10px; font-size:0.75rem; margin-bottom:15px; font-weight:bold;">對象 ${id===1?'A':'B'}</div>
             <div class="map">
                 <div class="row">${bx(res.n1)+bx(res.n2)+bx(res.n3)+bx(res.n4)}</div>
                 <div class="row">${bx(res.n5)+bx(res.n6)}</div>
@@ -188,9 +189,9 @@ function renderBox(id, res) {
                 <div class="row">${bx(res.n8)+bx(res.n9)}</div>
             </div>
             <div class="extra-section">
-                <div><div class="row">${bx(res.p1)+bx(res.p2)+bx(res.p3)}</div><div class="extra-label">伴侶位</div></div>
-                <div><div class="row">${bx(res.n10)}</div><div class="extra-label">子女位</div></div>
-                <div><div class="row">${bx(res.e1)+bx(res.e2)+bx(res.e3)}</div><div class="extra-label">晚年位</div></div>
+                <div><div class="row" style="justify-content:center;">${bx(res.p1)+bx(res.p2)+bx(res.p3)}</div><div class="extra-label">伴侶位</div></div>
+                <div><div class="row" style="justify-content:center;">${bx(res.n10)}</div><div class="extra-label">子女位</div></div>
+                <div><div class="row" style="justify-content:center;">${bx(res.e1)+bx(res.e2)+bx(res.e3)}</div><div class="extra-label">晚年位</div></div>
             </div>
             <table class="el-table">
                 <tr><th>金</th><th>木</th><th>水</th><th>火</th><th>土</th></tr>
@@ -198,16 +199,15 @@ function renderBox(id, res) {
             </table>
             <div class="desc-box">
                 <div class="desc-title">${p.title}</div>
-                <div class="desc-content"><b>● 核心特質：</b>${p.trait}</div>
-                <div class="desc-content"><b>● 潛在優勢：</b>${p.strength}</div>
-                <div class="desc-content" style="margin-bottom:0;"><b>● 人生課題：</b>${p.lesson}</div>
+                <div style="margin-bottom:8px;"><b>● 特質：</b>${p.trait}</div>
+                <div style="margin-bottom:8px;"><b>● 優勢：</b>${p.strength}</div>
+                <div style="margin-bottom:0;"><b>● 課題：</b>${p.lesson}</div>
             </div>
             <div class="crystal-box">
-                <div style="color:var(--gold); font-size:0.95rem; font-weight:bold; margin-bottom:10px;">💎 隨機晶石補充建議</div>
-                <div style="line-height:1.6;">${low.length > 0 ? cryHtml : '<span style="font-size:0.85rem; color:#888;">✨ 能量平衡，佩戴白水晶即可。</span>'}</div>
+                <div style="color:var(--gold); font-size:0.85rem; font-weight:bold; margin-bottom:8px;">💎 建議水晶建議</div>
+                <div style="line-height:1.4;">${low.length > 0 ? cryHtml : '<span style="font-size:0.8rem; color:#888;">✨ 能量平衡。</span>'}</div>
             </div>
             <a href="https://wa.me/85263870731?text=${waMsg}" class="whatsapp-btn" target="_blank">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
                 詳細解說或訂造個人專屬五行水晶
             </a>
         </div>`;
@@ -217,7 +217,7 @@ function showMatch(r1, r2) {
     const card = document.getElementById('matchCard');
     card.style.display = 'block';
     const score = 100 - (Math.abs(r1.n7 - r2.n7) * 8);
-    card.innerHTML = `<h3 style="margin:0; color:var(--gold);">💖 靈魂契合深度分析</h3><div style="font-size:3.5rem; font-weight:900; margin:15px 0;">${score}%</div><p style="font-size:0.95rem; color:#ccc;">${score > 80 ? '頻率極度和諧，是難得的靈魂伴侶。' : '性格具互補性，需理解彼此方能長久。'}</p>`;
+    card.innerHTML = `<h3 style="margin:0; color:var(--gold); font-size:1.1rem;">💖 靈魂契合分析</h3><div style="font-size:2.5rem; font-weight:900; margin:10px 0;">${score}%</div><p style="font-size:0.85rem; color:#ccc;">${score > 80 ? '頻率極度和諧！' : '性格具互補性。'}</p>`;
 }
 </script>
 </body>
