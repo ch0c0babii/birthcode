@@ -3,90 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chocotarot:生命密碼分析系統</title>
+    <title>Chocotarot:生命密碼分析</title>
     <style>
-        :root { 
-            --main-purple: #DCD6F7;
-            --accent-pink: #FFB7B2;
-            --gold: #FFDAC1;
-            --font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
-        }
-        
-        body { 
-            font-family: var(--font-family); 
-            background: radial-gradient(circle at 50% 50%, #1e272e 0%, #0c1445 50%, #050505 100%);
-            background-attachment: fixed;
-            color: #fff; margin: 0; padding: 10px;
-            display: flex; justify-content: center; min-height: 100vh;
-        }
-
-        .card { 
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); 
-            padding: 20px; border-radius: 30px; width: 100%; max-width: 900px;
-            border: 1px solid rgba(255, 255, 255, 0.2); box-sizing: border-box;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin: 10px 0;
-        }
-
-        .input-group { 
-            display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 20px;
-        }
-        input { 
-            padding: 12px; border-radius: 12px; border: none; background: #B9FBC0; 
-            color: #444; font-size: 16px; width: 100%; box-sizing: border-box; 
-        }
-        button.primary-btn { 
-            background: #7FB3D5; color: #fff; border: none; padding: 15px; 
-            border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.1rem;
-        }
-
+        :root { --main-purple: #DCD6F7; --accent-pink: #FFB7B2; --gold: #FFDAC1; --font-family: "Microsoft JhengHei", sans-serif; }
+        body { font-family: var(--font-family); background: radial-gradient(circle at 50% 50%, #1e272e 0%, #0c1445 50%, #050505 100%); background-attachment: fixed; color: #fff; margin: 0; padding: 10px; display: flex; justify-content: center; min-height: 100vh; }
+        .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); padding: 20px; border-radius: 30px; width: 100%; max-width: 900px; border: 1px solid rgba(255, 255, 255, 0.2); box-sizing: border-box; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .input-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 20px; }
+        input { padding: 12px; border-radius: 12px; border: none; background: #B9FBC0; color: #444; font-size: 16px; width: 100%; box-sizing: border-box; }
+        button.primary-btn { background: #7FB3D5; color: #fff; border: none; padding: 15px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
         .people-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 768px) { .people-grid.dual { grid-template-columns: 1fr 1fr; } }
-
-        .person-box { 
-            background: rgba(255, 255, 255, 0.08); padding: 20px; 
-            border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); 
-        }
-        
+        .person-box { background: rgba(255, 255, 255, 0.08); padding: 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); }
         .map { display: flex; flex-direction: column; align-items: center; margin: 15px 0; }
         .row { display: flex; gap: 10px; margin: 5px 0; }
-        
-        .box { 
-            width: 45px; height: 45px; border: 2px solid #00d2ff; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 1.2rem; border-radius: 12px; font-weight: bold; 
-            background: rgba(0, 20, 60, 0.6); color: #00d2ff;
-        }
-
-        .main-num { 
-            border: 3px solid #ff4d4d; color: #ff4d4d; 
-            background: rgba(60, 0, 0, 0.6); box-shadow: 0 0 15px rgba(255, 77, 77, 0.8); 
-        }
-
-        .desc-box { 
-            margin-top: 15px; padding: 15px; background: rgba(255, 255, 255, 0.1); 
-            border-radius: 15px; font-size: 0.85rem; border-left: 5px solid var(--main-purple); 
-        }
+        .box { width: 45px; height: 45px; border: 2px solid #00d2ff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border-radius: 12px; font-weight: bold; background: rgba(0, 20, 60, 0.6); color: #00d2ff; }
+        .main-num { border: 3px solid #ff4d4d; color: #ff4d4d; background: rgba(60, 0, 0, 0.6); box-shadow: 0 0 15px rgba(255, 77, 77, 0.8); }
+        .desc-box { margin-top: 15px; padding: 15px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; font-size: 0.85rem; border-left: 5px solid var(--main-purple); }
         .desc-title { color: var(--main-purple); font-weight: bold; margin-bottom: 8px; }
         .core-desc { background: rgba(255, 183, 178, 0.15); border-left: 5px solid var(--accent-pink); }
-
         .crystal-tag { padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; margin: 3px; display: inline-block; color: #444; }
         .tag-金 { background: #F5F5F5; } .tag-木 { background: #C8E6C9; } .tag-水 { background: #BBDEFB; } .tag-火 { background: #FFCDD2; } .tag-土 { background: #FFF9C4; }
-
         .el-table { width: 100%; border-collapse: separate; border-spacing: 2px; margin-top: 15px; }
         .el-table th { background: #A2D9CE; color: #444; padding: 8px; border-radius: 8px 8px 0 0; }
         .el-table td { background: #FEF9E7; color: #5D6D7E; padding: 10px; text-align: center; font-weight: bold; border-radius: 0 0 8px 8px; }
         .low-score { background: #FADBD8 !important; color: #E74C3C; }
-
-        .whatsapp-btn { 
-            display: flex; align-items: center; justify-content: center; margin-top: 20px; 
-            padding: 15px; background: #2ecc71; color: white; text-decoration: none; 
-            border-radius: 15px; font-weight: bold;
-        }
+        .whatsapp-btn { display: flex; align-items: center; justify-content: center; margin-top: 20px; padding: 15px; background: #2ecc71; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
-
 <div class="card">
     <h2 style="text-align:center; color: var(--main-purple);">✨ Chocotarot:生命密碼分析 ✨</h2>
     <div class="input-group">
@@ -99,176 +43,147 @@
         <div id="matchCard" style="display:none; margin-top:20px; text-align:center; background:rgba(255,255,255,0.1); padding:20px; border-radius:20px; border:2px dashed var(--main-purple);"></div>
     </div>
 </div>
-
 <script>
-const CORE_PERSONALITY = {
-    "1": { title: "1 號：天生的領導者", content: "行動力強的天生領導者，帶著自信與幹勁，展現堅定的決斷力與勇氣。擅長冒險，能在困境中率先衝出一條路。", bright: "領導力強、獨立自主、行動力佳、企圖心旺盛", dark: "固執己見、急躁衝動、過度好強、自我中心" },
-    "2": { title: "2 號：溫和的協調者", content: "安靜可靠，擅長傾聽與觀察，懂得顧全大局，喜歡透過合作而非競爭來完成目標。帶有柔和的力量。", bright: "溫柔體貼、重視人際和諧、富有同理心、擅長團隊合作", dark: "過於在意眼光、猶豫不決、缺乏獨立性、牆頭草" },
-    "3": { title: "3 號：創意靈魂的表達者", content: "充滿創意與表達欲，能讓氛圍變得輕鬆。擅長將靈感化為具體行動。需在創意與紀律間找到平衡。", bright: "樂觀開朗、社交能力好、幽默感、富有創意美感", dark: "三分鐘熱度、情緒化、過愛表達、缺乏耐心" },
-    "4": { title: "4 號：務實的執行者", content: "細心、紀律與責任感，讓計畫落地實踐。嚴謹是優點，但有時過於保守不願承擔風險。", bright: "理性紀律、務實可靠、耐心專注、責任感強", dark: "過於保守嚴肅、不知變通、完美主義、缺乏想像力" },
-    "5": { title: "5 號：熱愛自由的冒險家", content: "渴求自由，憑直覺跳脫既有框架。勇敢且好奇，能快速適應環境。需在自由與責任間平衡。", bright: "熱愛自由、適應力強、冒險精神、機智多才", dark: "浮躁衝動、喜新厭舊、漂泊不定、不滿現實" },
-    "6": { title: "6 號：溫柔的守護者", content: "天生帶著溫柔與責任感，默默把照顧他人視為任務。容易忽略自己，需要學習適度放手。", bright: "責任感強、值得信賴、關懷體貼、忠誠穩定", dark: "控制慾強、情緒敏感、保守封閉、得失心重" },
-    "7": { title: "7 號：深邃的洞察者", content: "沉浸於內在世界，具備極強的洞察力與分析力。不滿足於表象，追求精神上的成長與真相。", bright: "洞察力強、獨立冷靜、精神成長、邏輯清晰", dark: "鑽牛角尖、孤立感強、挑剔苛求、不善表達" },
-    "8": { title: "8 號：目標明確的管理者", content: "強烈的目標意識與掌控力，能把夢想化為成果。不怕挑戰，但有時過於嚴厲或難以妥協。", bright: "企圖心強、領導力佳、堅毅果斷、執行效率高", dark: "控制欲強、驕傲自大、缺乏耐心、急於成功" },
-    "9": { title: "9 號：博愛的夢想家", content: "帶有天生的使命感，渴望改善環境。需學會承認現實的限制，並在細小的日常裡實踐理想。", bright: "遠見宏觀、樂於付出、公平正義、樂觀思維", dark: "不切實際、容易分心、佔有慾強、過度自戀" }
+const CORE_DB = {
+    "1": { t: "1 號：天生的領導者", c: "行動力強的天生領導者，帶著自信與幹勁，展現堅定的決斷力與勇氣。擅長冒險，能在困境中率先衝出一條路。", b: "領導力強、獨立自主、行動力佳、企圖心旺盛", d: "固執己見、急躁衝動、過度好強、自我中心" },
+    "2": { t: "2 號：溫和的協調者", c: "安靜可靠，擅長傾聽與觀察，懂得顧全大局，喜歡透過合作而非競爭來完成目標。帶有柔和的力量。", b: "溫柔體貼、重視人際和諧、富有同理心、擅長團隊合作", d: "過於在意眼光、猶豫不決、缺乏獨立性、牆頭草" },
+    "3": { t: "3 號：創意靈魂的表達者", c: "充滿創意與表達欲，能讓氛圍變得輕鬆。擅長將靈感化為具體行動。需在創意與紀律間找到平衡。", b: "樂觀開朗、社交能力好、幽默感、富有創意美感", d: "三分鐘熱度、情緒化、過愛表達、缺乏耐心" },
+    "4": { t: "4 號：務實的執行者", c: "細心、紀律與責任感，讓計畫落地實踐。嚴謹是優點，但有時過於保守不願承擔風險。", b: "理性紀律、務實可靠、耐心專注、責任感強", d: "過於保守嚴肅、不知變通、完美主義、缺乏想像力" },
+    "5": { t: "5 號：熱愛自由的冒險家", c: "渴求自由，憑直覺跳脫既有框架。勇敢且好奇，能快速適應環境。需在自由與責任間平衡。", b: "熱愛自由、適應力強、冒險精神、機智多才", d: "浮躁衝動、喜新厭舊、漂泊不定、不滿現實" },
+    "6": { t: "6 號：溫柔的守護者", c: "天生帶著溫柔與責任感，默默把照顧他人視為任務。容易忽略自己，需要學習適度放手。", b: "責任感強、值得信賴、關懷體貼、忠誠穩定", d: "控制慾強、情緒敏感、保守封閉、得失心重" },
+    "7": { t: "7 號：深邃的洞察者", c: "沉浸於內在世界，具備極強的洞察力與分析力。不滿足於表象，追求精神上的成長與真相。", b: "洞察力強、獨立冷靜、精神成長、邏輯清晰", d: "鑽牛角尖、孤立感強、挑剔苛求、不善表達" },
+    "8": { t: "8 號：目標明確的管理者", c: "強烈的目標意識與掌控力，能把夢想化為成果。不怕挑戰，但有時過於嚴厲或難以妥協。", b: "企圖心強、領導力佳、堅毅果斷、執行效率高", d: "控制欲強、驕傲自大、缺乏耐心、急於成功" },
+    "9": { t: "9 號：博愛的夢想家", c: "帶有天生的使命感，渴望改善環境。需學會承認現實的限制，並在細小的日常裡實踐理想。", b: "遠見宏觀、樂於付出、公平正義、樂觀思維", d: "不切實際、容易分心、佔有慾強、過度自戀" }
 };
-
-const COMBINATION_DB = {
-    "112": "做事矛盾,糾結,容易半途而廢,虎頭蛇尾,說一套做一套,多讀書,多突破自我,適合晚婚。",
-    "123": "說話不經過大腦,感性圓滑。在意別人說話,好心辦不了好事,善變,適合講師。",
-    "134": "感性衝動,喜歡嘗試又害怕,矛盾焦躁,喜歡抱怨。",
-    "145": "容易半途而廢,缺少突破。需有人鼓勵,不適合單幹。",
-    "156": "適合外地發展,自我固執,喜歡挑剔,方向感強,能賺到錢。",
-    "167": "有財富,願意把錢花在朋友、戀人身上。花錢大手大腳。",
-    "178": "對待朋友仗義責任心強,有領導氣質,能做大生意。",
-    "189": "完美主義者,有責任感。想成功必須肯突破,出去闖,比較辛苦。",
-    "213": "愛辯論,說話快直爽。容易傷人,需注意溝通方式。",
-    "224": "說話溫柔好聽但糾結。適合靠嘴吃飯,如客服、播音。",
-    "235": "脾氣大,說話帶攻擊性,直腸子。執行力強,非常固執。",
-    "246": "銷售高手,靠嘴吃飯,適合服務行業或業務工作。",
-    "257": "人緣好,貴人多。說話有感染力,容易說服他人。",
-    "268": "很會賺錢,靠溝通服務獲取財富。財運不錯。",
-    "279": "吸引力強,有高級桃花。適合公關或演藝事業。",
-    "314": "衝動派,想做就做。容易因不冷靜後悔。行動力極強。",
-    "325": "說話帶火氣,易與人吵架。雖然心腸不壞但言辭犀利。",
-    "336": "容易衝動,脾氣不好,不能賭博,謹慎投資。",
-    "347": "聰明但多疑。會為了目的尋找方法。貴人運強。",
-    "358": "情緒起伏大,壓力大。需要學會放鬆與排解壓力。",
-    "369": "聰明點子多,想像力豐富。容易成功也容易幻想。",
-    "415": "保守不喜變動。需要安全感,適合穩定的環境。",
-    "426": "分析能力強,靠專業知識賺錢。適合顧問或分析師。",
-    "437": "追求完美且細心。對人對己要求高,容易疲累。",
-    "448": "穩定可靠,責任心強。適合經營管理類工作。",
-    "459": "有理想遠見。能通過努力實現大目標。",
-    "516": "適合外出發展,固執方向感強,能賺到財富。",
-    "527": "說話直接易招小人。但貴人運強,能逢凶化吉。",
-    "538": "情緒化嚴重,易受環境影響。需強大內心支撐。",
-    "549": "有才華但孤傲。適合藝術或研究類工作。",
-    "551": "非常固執,堅持己見。一旦決定很難更改。",
-    "617": "慷慨大方。願意為他人付出金錢,人緣極佳。",
-    "628": "財源廣進。靠才華溝通賺錢,理財能力強。",
-    "639": "智慧型才華。容易通過創意或點子獲得成功。",
-    "641": "傳統守財。喜歡穩定投資,不喜歡冒險。",
-    "652": "財富起伏大。易因說錯話或衝動而損財。",
-    "663": "愛投資,一有錢就想投。錢進出快,口袋留不住錢。",
-    "718": "領導力強,有責任感。容易在事業上取得高位。",
-    "729": "吸引高級桃花,貴人極多,做事順風順水。",
-    "731": "急性子做事快。有貴人但易因焦躁出錯。",
-    "742": "分析力強有邏輯。能吸引同樣聰明的朋友。",
-    "753": "人際複雜易有是非。需要謹言慎行。",
-    "764": "專業能力強。因穩定表現獲得升遷或財富。",
-    "775": "貴人極多但易依賴。需要加強自主性。",
-    "819": "完美主義壓力大。為理想拼搏,注意健康。",
-    "821": "說話帶來壓力。需要學會溝通與釋放情緒。",
-    "832": "情緒化易焦躁。壓力多來自內心的不安。",
-    "843": "做事細心但易糾結細節,產生不必要壓力。",
-    "854": "環境變動帶來壓力。需學會適應新局勢。",
-    "865": "易因金錢投資產生壓力。理財需謹慎。",
-    "876": "非常有責任感,是大家信賴的領導者。",
-    "887": "情緒化愛發火,疏遠朋友。容易影響感情關係。",
-    "911": "特立獨行,不喜依賴。容易成功但也孤獨。",
-    "922": "多愁善感易受傷。適合文藝或療癒工作。",
-    "933": "活潑有創意。保持童心,點子特別多。",
-    "944": "踏實穩重。對知識有渴求,適合做研究。",
-    "955": "追求自由不愛束縛。多有異地發展機會。",
-    "966": "注重生活品質。會賺錢也會享受人生。",
-    "977": "人緣極好受歡迎。走到哪都是焦點。",
-    "988": "拼搏精神強。為事業付出一切,名利雙收。",
-    "999": "容易貪心,注意眾叛親離。需學會知足。"
-    // 已完整覆蓋所有核心組合與常見組合
+const COMBO_DB = {
+    "112": "做事矛盾糾結,容易半途而廢,虎頭蛇尾,說一套做一套。多讀書突破自我,適合晚婚。",
+    "123": "說話感性圓滑,反應快懂察言觀色。但在意他人評價,好心辦不了好事。",
+    "134": "感性衝動,喜歡嘗試又害怕。容易焦躁抱怨。",
+    "145": "容易半途而廢,缺少突破力。需他人鼓勵,不適合獨自創業。",
+    "156": "適合外地發展。自我固執,方向感強,能賺到財富。",
+    "167": "財運好,願意把錢花在親友身上。花錢大方大手大腳。",
+    "178": "朋友運佳且仗義。有領導氣質,具備大生意的格局。",
+    "189": "完美主義且責任感重。想成功必須不斷突破自我,勇於闖蕩。",
+    "213": "愛辯論,說話快直爽。容易傷人,需修煉溝通方式。",
+    "224": "說話溫柔好聽但糾結。適合客服、播音等靠嘴吃飯的職業。",
+    "235": "脾氣急躁,說話帶攻擊性。執行力強但非常固執。",
+    "246": "天生銷售高手,適合服務行業,靠口才獲取財富。",
+    "257": "人緣極佳,貴人多。說話有感染力,極具說服力。",
+    "268": "財富來自溝通與服務。理財能力尚可,財源穩定。",
+    "279": "吸引力強,有高級桃花。適合公關、演藝相關事業。",
+    "314": "行動力強的衝動派。容易不冷靜,事後感到後悔。",
+    "325": "言辭犀利帶火氣,易與人爭執。雖然心腸不壞但語氣生硬。",
+    "336": "易衝動且脾氣火爆。不宜賭博,投資需格外謹慎。",
+    "347": "聰明但多疑。擅長尋找達成目的的方法,貴人運強。",
+    "358": "情緒起伏大,壓力重。需尋找解壓管道,學會放鬆。",
+    "369": "點子多且富想像力。容易獲得成功,但也易陷入幻想。",
+    "415": "保守且需要極大安全感。不喜變動,適合穩定環境。",
+    "426": "分析力強,靠專業技術賺錢。適合顧問或分析專家。",
+    "437": "細心且追求完美。對自己與他人要求極高,容易心累。",
+    "448": "穩定可靠,責任感極強。是經營管理的優秀人才。",
+    "459": "胸懷大志,有遠見。能通過努力實現宏大目標。",
+    "516": "適合外出打拼。固執、方向感強,能白手起家賺到錢。",
+    "527": "說話直接易招小人。但能逢凶化吉,貴人隨行。",
+    "538": "情緒化且易受環境影響。需要強大的內心力量支撐。",
+    "549": "才華橫溢但孤傲。適合藝術、科學研究等專業領域。",
+    "551": "性格極度固執,堅持己見。一旦決定,九頭牛拉不回。",
+    "617": "慷慨大方,重情重義。為他人付出金錢不手軟,人緣好。",
+    "628": "財運亨通。靠才華與溝通賺錢,具備優秀理財能力。",
+    "639": "聰明才智型。能通過創意點子或智慧獲取成功。",
+    "641": "傳統守財型。偏好穩健投資,不喜冒險行為。",
+    "652": "財富波動較大。易因言行衝動或說錯話導致損財。",
+    "663": "喜歡投資,錢進出飛快。口袋留不住錢,錢滾錢類型。",
+    "718": "具備高階領導力,責任心重。容易在職場身居高位。",
+    "729": "桃花運與貴人運極佳。做事順遂,處處有人相助。",
+    "731": "急性子且行動力快。雖然有貴人但也易焦躁出錯。",
+    "742": "邏輯分析力強。能吸引同樣高智商的朋友圈。",
+    "753": "社交關係複雜,易招惹是非。需注意謹言慎行。",
+    "764": "專業技術立身。表現穩定,財富與職位隨年齡增長。",
+    "775": "貴人成群但易產生依賴。需要提升獨立自主能力。",
+    "819": "壓力巨大的完美主義者。為理想拼命,需關注健康。",
+    "821": "言語帶來的壓力重。需學會有效溝通與舒緩情緒。",
+    "832": "情緒不穩易焦躁。壓力多來自於內在缺乏安全感。",
+    "843": "做事過於細膩,易糾結於微小細節而產生壓力。",
+    "854": "環境變動會產生巨大壓力。需學會適應新局勢。",
+    "865": "易因財務問題產生心理負擔。理財策略宜趨保守。",
+    "876": "極具社會責任感。是眾人信賴、願意跟隨的領導者。",
+    "887": "情緒化且易怒。人際關係疏離,需注意經營感情。",
+    "911": "特立獨行不喜依賴。事業易成功但內心較孤獨。",
+    "922": "心思細膩多愁善感。適合療癒、藝術或文藝工作。",
+    "933": "活潑有趣,保持童心。點子源源不絕,極具創意。",
+    "944": "踏實穩重。求知慾強,是研究與學術領域的長才。",
+    "955": "嚮往自由不受約束。多有到國外或異地發展的機遇。",
+    "966": "懂生活、會享受。理財有道,能維持高品質生活。",
+    "977": "人緣極佳,受大眾歡迎。自帶光芒,社交場合的焦點。",
+    "988": "拼搏精神極強。為事業全力以赴,名利雙收。",
+    "999": "目標過大易顯貪心。需防眾叛親離,學會知足常樂。"
 };
-
-const CRYSTAL_DB = { "金": ["白水晶", "白幽靈"], "木": ["綠幽靈", "葡萄石"], "水": ["黑曜石", "藍虎眼"], "火": ["紫水晶", "粉晶"], "土": ["黃水晶", "鈦晶"] };
+const CRY_DB = { "金": ["白水晶", "白幽靈"], "木": ["綠幽靈", "葡萄石"], "水": ["黑曜石", "藍虎眼"], "火": ["紫水晶", "粉晶"], "土": ["黃水晶", "鈦晶"] };
 function getS(n) { let s = String(n).split('').reduce((a,b)=>Number(a)+Number(b),0); return s > 9 ? getS(s) : s; }
-
-function getComboText(a, b, c) {
-    let raw = `${a}${b}${c}`;
-    if (COMBINATION_DB[raw]) return COMBINATION_DB[raw];
+function getC(a, b, c) {
+    let r = `${a}${b}${c}`; if (COMBO_DB[r]) return COMBO_DB[r];
     let s = [a, b, c].sort().join('');
-    for (let k in COMBINATION_DB) { if (k.split('').sort().join('') === s) return COMBINATION_DB[k]; }
+    for (let k in COMBO_DB) { if (k.split('').sort().join('') === s) return COMBO_DB[k]; }
     return "";
 }
-
-function solve(dateStr) {
-    const [y, m, d] = dateStr.split('-');
+function solve(dStr) {
+    const [y, m, d] = dStr.split('-');
     let n1=getS(d), n2=getS(m), n3=getS(y.slice(0,2)), n4=getS(y.slice(2,4));
-    let n5=getS(n1+n2), n6=getS(n3+n4), n7=getS(n5+n6);
-    let n8=getS(n6+n7), n9=getS(n5+n7), n10=getS(n8+n9);
-    let p3=getS(n1+n5), p2=getS(n2+n5), p1=getS(p2+p3);
-    let e1=getS(n3+n6), e2=getS(n4+n6), e3=getS(e1+e2);
+    let n5=getS(n1+n2), n6=getS(n3+n4), n7=getS(n5+n6), n8=getS(n6+n7), n9=getS(n5+n7), n10=getS(n8+n9);
+    let p3=getS(n1+n5), p2=getS(n2+n5), p1=getS(p2+p3), e1=getS(n3+n6), e2=getS(n4+n6), e3=getS(e1+e2);
     let sc = {"金":0,"木":0,"水":0,"火":0,"土":0};
     const ref = {'1':'金','6':'金','4':'木','9':'木','2':'水','7':'水','3':'火','8':'火','5':'土','0':'土'};
     [n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,p1,p2,p3,e1,e2,e3].forEach(x => { if(ref[x]) sc[ref[x]]++; });
     return { n7, n8, n9, n10, p1, p2, p3, e1, e2, e3, sc };
 }
-
 function startAnalysis() {
-    const d1 = document.getElementById('date1').value;
-    const d2 = document.getElementById('date2').value;
+    const d1 = document.getElementById('date1').value, d2 = document.getElementById('date2').value;
     if(!d1) return alert("請輸入生日 A");
-    const res1 = solve(d1);
-    let html = renderBox(1, res1);
+    const res1 = solve(d1); let html = renderBox(1, res1);
     if(d2) {
-        const res2 = solve(d2);
-        html += renderBox(2, res2);
+        const res2 = solve(d2); html += renderBox(2, res2);
         document.getElementById('pGrid').classList.add('dual');
         const score = 100 - (Math.abs(res1.n7 - res2.n7) * 8);
-        let comment = score >= 90 ? "你們是命定般的靈魂伴侶，能量極度契合，溝通無礙且能互相成就。" :
-                      score >= 75 ? "雙方性格互補且充滿吸引力，只要彼此包容，便能建立深厚情感連結。" :
-                      score >= 55 ? "關係充滿火花但也伴隨挑戰。建議多傾聽對方需求，用耐心化解差異。" :
-                                    "性格特質較為迥異，相處需要更多尊重與空間，建議先以朋友關係發展。";
+        let cmt = score >= 90 ? "你們是命定般的靈魂伴侶，能量極度契合，溝通無礙且能互相成就。" :
+                  score >= 75 ? "雙方性格互補且充滿吸引力，只要彼此包容，便能建立深厚連結。" :
+                  score >= 55 ? "關係充滿火花但也伴隨挑戰。建議多傾聽對方需求，用耐心化解差異。" : "性格特質迥異，相處需要更多尊重與空間，建議先以朋友角度出發。";
         document.getElementById('matchCard').style.display = 'block';
-        document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3><p style="font-size:0.9rem;">${comment}</p>`;
-    } else {
-        document.getElementById('pGrid').classList.remove('dual');
-        document.getElementById('matchCard').style.display = 'none';
-    }
-    document.getElementById('pGrid').innerHTML = html;
-    document.getElementById('resultsArea').style.display = 'block';
+        document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3><p style="font-size:0.9rem;">${cmt}</p>`;
+    } else { document.getElementById('pGrid').classList.remove('dual'); document.getElementById('matchCard').style.display = 'none'; }
+    document.getElementById('pGrid').innerHTML = html; document.getElementById('resultsArea').style.display = 'block';
 }
-
 function renderBox(id, res) {
-    const bx = (v, c='') => `<div class="box ${c}">${v}</div>`;
-    const core = CORE_PERSONALITY[String(res.n7)];
-    const lowElements = Object.keys(res.sc).filter(k => res.sc[k] < 3);
+    const bx = (v, c='') => `<div class="box ${c}">${v}</div>`, core = CORE_DB[String(res.n7)], low = Object.keys(res.sc).filter(k => res.sc[k] < 3);
     const combos = [
-        {nums: `${res.p3}${res.p2}${res.p1}`, text: getComboText(res.p3, res.p2, res.p1)},
-        {nums: `${res.n7}${res.n8}${res.n9}`, text: getComboText(res.n7, res.n8, res.n9)},
-        {nums: `${res.n8}${res.n9}${res.n10}`, text: getComboText(res.n8, res.n9, res.n10)},
-        {nums: `${res.e1}${res.e2}${res.e3}`, text: getComboText(res.e1, res.e2, res.e3)}
+        {n: `${res.p3}${res.p2}${res.p1}`, t: getC(res.p3, res.p2, res.p1)},
+        {n: `${res.n7}${res.n8}${res.n9}`, t: getC(res.n7, res.n8, res.n9)},
+        {n: `${res.n8}${res.n9}${res.n10}`, t: getC(res.n8, res.n9, res.n10)},
+        {n: `${res.e1}${res.e2}${res.e3}`, t: getC(res.e1, res.e2, res.e3)}
     ];
-
     return `
         <div class="person-box">
             <div style="background:var(--main-purple); color:#444; padding:4px 15px; border-radius:10px; font-size:0.8rem; margin-bottom:10px; font-weight:bold; display:inline-block;">對象 ${id===1?'A':'B'}</div>
-            <div class="map">
-                <div class="row">${bx(res.n7, 'main-num')}</div>
-                <div class="row">${bx(res.n8)+bx(res.n9)}</div>
-            </div>
-            
+            <div class="map"><div class="row">${bx(res.n7, 'main-num')}</div><div class="row">${bx(res.n8)+bx(res.n9)}</div></div>
             <div class="desc-box core-desc">
-                <div class="desc-title" style="color:#FF7675;">🌟 中心位：${core.title}</div>
-                <div>${core.content}</div>
-                <div style="font-size:0.8rem; margin-top:5px;"><b>• 光明面：</b>${core.bright}</div>
-                <div style="font-size:0.8rem;"><b>• 黑暗面：</b>${core.dark}</div>
+                <div class="desc-title" style="color:#FF7675;">🌟 中心位人格特質</div>
+                <div style="font-weight:bold; font-size:1rem; margin-bottom:5px;">${core.t}</div>
+                <div style="margin-bottom:8px;">${core.c}</div>
+                <div style="font-size:0.8rem;"><b>• 光明面：</b>${core.b}</div>
+                <div style="font-size:0.8rem;"><b>• 黑暗面：</b>${core.d}</div>
             </div>
-
             <div class="desc-box">
                 <div class="desc-title">✨ 聯合數字解析</div>
-                ${combos.filter(c => c.text).map(c => `<div style="margin-bottom:8px;"><b>[${c.nums}]</b> ${c.text}</div>`).join('')}
+                ${combos.filter(c => c.t).map(c => `<div style="margin-bottom:8px;"><b>[${c.n}]</b> ${c.t}</div>`).join('')}
             </div>
-
-            <div class="crystal-section" style="margin-top:15px; padding:15px; background:rgba(255,255,255,0.05); border-radius:15px;">
+            <div class="crystal-section" style="margin-top:15px; padding:15px; background:rgba(255,255,255,0.05); border-radius:15px; border-left: 5px solid var(--gold);">
                 <div class="desc-title" style="color:var(--gold)">💎 五行能量補強</div>
-                ${lowElements.map(el => CRYSTAL_DB[el].map(s => `<span class="crystal-tag tag-${el}">${s}</span>`).join('')).join('')}
+                ${low.map(el => CRY_DB[el].map(s => `<span class="crystal-tag tag-${el}">${s}</span>`).join('')).join('')}
             </div>
-
             <table class="el-table">
                 <tr><th>金</th><th>木</th><th>水</th><th>火</th><th>土</th></tr>
                 <tr>${["金","木","水","火","土"].map(k => `<td class="${res.sc[k]<3?'low-score':''}">${res.sc[k]}</td>`).join('')}</tr>
             </table>
-
-            <a href="https://wa.me/85263870731" class="whatsapp-btn" target="_blank">詳細解說或訂造五行水晶</a>
+            <a href="https://wa.me/85263870731" class="whatsapp-btn" target="_blank">詳細解說或訂造專屬五行水晶</a>
         </div>`;
 }
 </script>
