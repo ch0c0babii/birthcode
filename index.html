@@ -2,156 +2,125 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>生命密碼：星空專業分析系統</title>
+    <title>生命密碼：星空深度分析系統</title>
     <style>
         :root { 
-            --main: #4834d4; 
-            --accent: #eb4d4b; 
-            --warn: #ffdadb; 
+            --main-purple: #6c5ce7; 
+            --accent-pink: #ef5777; 
+            --star-white: rgba(255, 255, 255, 0.8);
         }
         
         body { 
             font-family: "Microsoft JhengHei", sans-serif; 
-            /* 深藍色星空漸變背景 */
-            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+            /* 優化星空背景：由深藍到極黑的徑向漸變 */
+            background: radial-gradient(circle at 50% 50%, #1e272e 0%, #0c1445 50%, #050505 100%);
             background-attachment: fixed;
-            color: #fff; /* 全域文字改為白色以對應深色背景 */
-            padding: 20px; 
-            display: flex; 
+            color: #fff;
+            margin: 0;
+            display: flex;
             justify-content: center;
             min-height: 100vh;
-            margin: 0;
+            overflow-x: hidden;
         }
 
-        /* 增加星星點綴感 */
+        /* 增加多層動態星星效果 */
         body::before {
             content: "";
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(white, rgba(255,255,255,.2) 1px, transparent 20px);
-            background-size: 100px 100px;
-            opacity: 0.2;
+            top: 0; left: 0; width: 200%; height: 200%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #ddd, rgba(0,0,0,0));
+            background-size: 200px 200px;
+            animation: stars-move 100s linear infinite;
+            opacity: 0.3;
             z-index: -1;
         }
 
+        @keyframes stars-move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-100px, -100px); }
+        }
+
         .card { 
-            background: rgba(255, 255, 255, 0.1); /* 半透明背景 */
-            backdrop-filter: blur(15px); /* 磨砂玻璃效果 */
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
-            width: 100%; 
-            max-width: 900px; 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(20px); 
+            padding: 40px; 
+            border-radius: 30px; 
+            box-shadow: 0 25px 80px rgba(0,0,0,0.8); 
+            width: 95%; 
+            max-width: 950px; 
+            margin: 40px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
         
         .input-group { 
-            display: flex; 
-            gap: 15px; 
-            justify-content: center; 
-            margin-bottom: 25px; 
-            align-items: flex-end; 
-            background: rgba(255, 255, 255, 0.1); 
-            padding: 15px; 
-            border-radius: 12px; 
+            display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; 
+            background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 15px;
         }
-        .input-item { display: flex; flex-direction: column; gap: 5px; font-size: 0.9rem; font-weight: bold; }
-        input { padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); width: 150px; background: rgba(0,0,0,0.2); color: white; }
+        .input-item { display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; }
+        input { padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); color: white; }
         
-        button { background: #5f27cd; color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; height: 40px; transition: 0.3s; }
-        button:hover { background: #341f97; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(95, 39, 205, 0.4); }
-        
-        .people-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        .people-grid.dual { grid-template-columns: 1fr 1fr; }
-        .person-box { border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 15px; background: rgba(255, 255, 255, 0.05); }
-        .name-tag { display: inline-block; padding: 4px 12px; background: #5f27cd; color: white; border-radius: 20px; font-size: 0.8rem; margin-bottom: 15px; }
+        button { 
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe); 
+            color: white; border: none; padding: 0 30px; border-radius: 10px; 
+            cursor: pointer; font-weight: bold; height: 45px; transition: 0.3s;
+        }
+        button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4); }
 
-        /* 沙漏主盤 */
-        .map { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
-        .row { display: flex; gap: 6px; margin: 3px 0; }
-        .box { width: 40px; height: 40px; border: 1.5px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; background: rgba(0,0,0,0.2); }
-        .main-num { border: 3px solid #ff4757; color: #ff4757; font-size: 1.3rem; }
+        /* 沙漏主盤樣式 */
+        .map { display: flex; flex-direction: column; align-items: center; margin: 20px 0; }
+        .row { display: flex; gap: 10px; margin: 5px 0; }
+        .box { 
+            width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.3); 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: bold; font-size: 1.2rem; background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        .main-num { border: 2px solid var(--accent-pink); color: var(--accent-pink); text-shadow: 0 0 10px rgba(239, 87, 119, 0.5); }
 
-        /* 伴侶位等 */
-        .extra-bits { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px; }
-        .bit-group { text-align: center; width: 100px; }
-        .bit-title { font-size: 0.75rem; color: #ccc; margin-top: 5px; }
-        .mini-row { display: flex; gap: 3px; justify-content: center; }
-        .mini-box { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; background: rgba(0,0,0,0.2); }
+        .extra-bits { display: flex; justify-content: space-around; margin: 20px 0; }
+        .mini-box { width: 35px; height: 35px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; border-radius: 5px; margin: 2px; }
 
         /* 五行表 */
-        .el-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: center; }
-        .el-table th { background: rgba(255,255,255,0.1); padding: 8px; border: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem; }
-        .el-table td { border: 1px solid rgba(255,255,255,0.2); padding: 10px; font-weight: bold; font-size: 1.1rem; }
-        .low-score { background-color: rgba(255, 71, 87, 0.3) !important; color: #ff6b81; } /* 少於3分淡紅 */
+        .el-table { width: 100%; border-collapse: collapse; margin-top: 25px; }
+        .el-table th { background: rgba(255,255,255,0.1); padding: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+        .el-table td { border: 1px solid rgba(255,255,255,0.1); padding: 15px; text-align: center; font-size: 1.2rem; font-weight: bold; }
+        .low-score { color: #ff7675; background: rgba(255, 118, 117, 0.1); }
 
-        .crystal-info { margin-top: 15px; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; font-size: 0.85rem; color: #f1f2f6; }
-        .per-desc { margin-top: 10px; line-height: 1.6; color: #dfe4ea; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
-
-        .match-section { background: rgba(95, 39, 205, 0.2); padding: 25px; border-radius: 15px; text-align: center; border: 2px dashed rgba(255,255,255,0.3); margin-top: 25px; }
-        .match-score { font-size: 2.8rem; font-weight: bold; color: #a29bfe; margin: 5px 0; }
+        .match-section { 
+            background: linear-gradient(145deg, rgba(108, 92, 231, 0.2), rgba(0,0,0,0.3));
+            padding: 30px; border-radius: 20px; text-align: center; margin-top: 30px;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+        }
+        .match-score { font-size: 3.5rem; font-weight: bold; color: #feca57; margin: 10px 0; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2 style="text-align:center; margin-top:0;">✨ 生命密碼星空分析 ✨</h2>
+    <h1 style="text-align:center; letter-spacing: 5px;">COSMOS CODE</h1>
     <div class="input-group">
-        <div class="input-item">生日 A (必填)<input type="date" id="date1"></div>
-        <div class="input-item">生日 B (選填)<input type="date" id="date2"></div>
-        <button onclick="startAnalysis()">啟動完整分析</button>
+        <div class="input-item">生日 A <input type="date" id="date1"></div>
+        <div class="input-item">生日 B <input type="date" id="date2"></div>
+        <button onclick="startAnalysis()">解鎖星圖</button>
     </div>
 
     <div id="resultsArea" style="display:none;">
-        <div id="pGrid" class="people-grid">
-            <div class="person-box" id="p1Box">
-                <div class="name-tag">分析對象 A</div>
-                <div id="map1" class="map"></div>
-                <div class="extra-bits">
-                    <div class="bit-group"><div id="partner1" class="mini-row"></div><div class="bit-title">伴侶位 (左下)</div></div>
-                    <div class="bit-group"><div id="child1" class="mini-row"></div><div class="bit-title">子女位 (中)</div></div>
-                    <div class="bit-group"><div id="future1" class="mini-row"></div><div class="bit-title">晚年位 (右下)</div></div>
-                </div>
-                <table id="table1" class="el-table"></table>
-                <div id="cry1" class="crystal-info"></div>
-                <div id="desc1" class="per-desc"></div>
+        <div id="pGrid" style="display: grid; grid-template-columns: 1fr; gap: 30px;">
             </div>
-
-            <div class="person-box" id="p2Box" style="display:none;">
-                <div class="name-tag">分析對象 B</div>
-                <div id="map2" class="map"></div>
-                <div class="extra-bits">
-                    <div class="bit-group"><div id="partner2" class="mini-row"></div><div class="bit-title">伴侶位 (左下)</div></div>
-                    <div class="bit-group"><div id="child2" class="mini-row"></div><div class="bit-title">子女位 (中)</div></div>
-                    <div class="bit-group"><div id="future2" class="mini-row"></div><div class="bit-title">晚年位 (右下)</div></div>
-                </div>
-                <table id="table2" class="el-table"></table>
-                <div id="cry2" class="crystal-info"></div>
-                <div id="desc2" class="per-desc"></div>
-            </div>
-        </div>
-
-        <div id="matchCard" class="match-section" style="display:none;">
-            <h3 style="margin:0;">💖 雙人契合度分析</h3>
-            <div id="scoreVal" class="match-score">0分</div>
-            <div id="matchMsg" style="font-size: 0.95rem; color: #dfe4ea; padding: 0 15px;"></div>
-        </div>
+        <div id="matchCard" class="match-section" style="display:none;"></div>
     </div>
 </div>
 
 <script>
-// 核心邏輯保持不變
-const CRYSTAL_MAP = { '金': '白水晶、鈦晶', '木': '綠幽靈、天河石', '水': '黑曜石、海藍寶', '火': '紫水晶、粉晶', '土': '黃水晶、茶晶' };
-const PERSONALITY = {
-    1: "【1號領袖】獨立具開創性。天生領導者但易自我，需學習團隊合作與傾聽。",
-    2: "【2號溝通】溫和具同理心。擅長協調但易優柔寡斷，需建立自信與果斷力。",
-    3: "【3號創意】熱情極具活力。行動派但情緒起伏大，需培養耐性與穩定心態。",
-    4: "【4號穩定】務實守規、謹慎。極佳執行者但易固執，需嘗試打破框框接受改變。",
-    5: "【5號冒險】嚮往自由、口才佳。適應力強但欠缺專注，需建立規律與毅力。",
-    6: "【6號責任】愛心、追求完美。責任感強但易給人壓力，需學會放鬆與包容缺憾。",
-    7: "【7號博學】愛鑽研、洞察力。智慧型但易顯孤僻，需開放心胸與外界交流。",
-    8: "【8號成就】野心家、具威信。追求成功但掌控欲強，需平衡物質與心靈成長。",
-    9: "【9號夢想】博愛、樂觀大方。理想家但易脫離現實，需加強務實執行力。"
+// 契合度深度描述邏輯
+const MATCH_DESCS = {
+    "1-1": "雙領袖組合。彼此欣賞對方的獨立，但需注意權力爭奪，學會輪流帶領。",
+    "1-2": "剛柔並濟。1號提供方向，2號提供支持與溝通，是極佳的執行搭檔。",
+    "7-6": "智慧與責任。7號的深思配合6號的執行力，能建立非常有質感的家庭生活。",
+    "default": "這是一段獨特的頻率組合。透過理解彼此在五行上的盈缺（如建議補充的晶石），你們能找到最和諧的共處模式。"
 };
 
 function getS(n) {
@@ -172,59 +141,77 @@ function solve(dateStr) {
     const ref = {'1':'金','6':'金','4':'木','9':'木','2':'水','7':'水','3':'火','8':'火','5':'土','0':'土'};
     list.forEach(x => { if(ref[x]) sc[ref[x]]++; });
 
-    const bx = (v, c='') => `<div class="box ${c}">${v}</div>`;
-    const mbx = (v) => `<div class="mini-box">${v}</div>`;
-
-    return {
-        n7, sc,
-        mainUI: `<div class="row">${bx(n1)+bx(n2)+bx(n3)+bx(n4)}</div><div class="row">${bx(n5)+bx(n6)}</div><div class="row">${bx(n7,'main-num')}</div><div class="row">${bx(n8)+bx(n9)}</div>`,
-        childUI: bx(n10),
-        partnerUI: mbx(p1)+mbx(p2)+mbx(p3),
-        futureUI: mbx(e1)+mbx(e2)+mbx(e3)
-    };
+    return { n7, sc, n1, n2, n3, n4, n5, n6, n8, n9, n10, p1, p2, p3, e1, e2, e3 };
 }
 
 function startAnalysis() {
     const d1 = document.getElementById('date1').value;
     const d2 = document.getElementById('date2').value;
-    if(!d1) { alert("請輸入生日 A"); return; }
+    if(!d1) return alert("請輸入至少一個生日");
+
     const res1 = solve(d1);
-    render(1, res1);
+    let html = renderBox(1, res1);
+    
     if(d2) {
         const res2 = solve(d2);
-        render(2, res2);
-        document.getElementById('pGrid').classList.add('dual');
-        document.getElementById('p2Box').style.display = 'block';
-        document.getElementById('matchCard').style.display = 'block';
-        const diff = Math.abs(res1.n7 - res2.n7);
-        let score = 100 - (diff * 8);
-        if(res1.n7 === res2.n7) score = 96;
-        document.getElementById('scoreVal').innerText = score + "分";
-        document.getElementById('matchMsg').innerText = `在這片星空下，${res1.n7}號與${res2.n7}號相遇。這是一段契合度極高的緣分，透過理解彼此能量盈缺，可以達成持久的和諧共處。`;
+        html += renderBox(2, res2);
+        document.getElementById('pGrid').style.gridTemplateColumns = "1fr 1fr";
+        showMatch(res1, res2);
     } else {
-        document.getElementById('pGrid').classList.remove('dual');
-        document.getElementById('p2Box').style.display = 'none';
+        document.getElementById('pGrid').style.gridTemplateColumns = "1fr";
         document.getElementById('matchCard').style.display = 'none';
     }
+    
+    document.getElementById('pGrid').innerHTML = html;
     document.getElementById('resultsArea').style.display = 'block';
 }
 
-function render(id, res) {
-    document.getElementById(`map${id}`).innerHTML = res.mainUI;
-    document.getElementById(`child${id}`).innerHTML = res.childUI;
-    document.getElementById(`partner${id}`).innerHTML = res.partnerUI;
-    document.getElementById(`future${id}`).innerHTML = res.futureUI;
-    document.getElementById(`desc${id}`).innerText = PERSONALITY[res.n7];
-    let low = [];
-    let table = `<tr><th>金(1,6)</th><th>木(4,9)</th><th>水(2,7)</th><th>火(3,8)</th><th>土(5,0)</th></tr><tr>`;
-    ["金","木","水","火","土"].forEach(k => {
-        let v = res.sc[k];
-        let cls = v < 3 ? 'low-score' : '';
-        if(v < 3) low.push(k);
-        table += `<td class="${cls}">${v}</td>`;
-    });
-    document.getElementById(`table${id}`).innerHTML = table + `</tr>`;
-    document.getElementById(`cry${id}`).innerHTML = low.length > 0 ? `💎 <b>建議補充：</b>${low.map(k => `${k}(${CRYSTAL_MAP[k]})`).join('、')}` : "✨ 五行能量平衡穩定。";
+function renderBox(id, res) {
+    const bx = (v, c='') => `<div class="box ${c}">${v}</div>`;
+    const low = Object.keys(res.sc).filter(k => res.sc[k] < 3);
+    return `
+        <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1)">
+            <div style="background:var(--main-purple); display:inline-block; padding:4px 15px; border-radius:20px; font-size:0.8rem; margin-bottom:20px;">分析對象 ${id === 1 ? 'A' : 'B'}</div>
+            <div class="map">
+                <div class="row">${bx(res.n1)+bx(res.n2)+bx(res.n3)+bx(res.n4)}</div>
+                <div class="row">${bx(res.n5)+bx(res.n6)}</div>
+                <div class="row">${bx(res.n7, 'main-num')}</div>
+                <div class="row">${bx(res.n8)+bx(res.n9)}</div>
+                <div class="row" style="margin-top:15px;">${bx(res.n10)} <span style="font-size:0.7rem; align-self:center; margin-left:10px;">子女位</span></div>
+            </div>
+            <div class="extra-bits">
+                <div><div class="row">${bx(res.p1)+bx(res.p2)+bx(res.p3)}</div><div style="font-size:0.7rem; color:#aaa; margin-top:5px;">伴侶位</div></div>
+                <div><div class="row">${bx(res.e1)+bx(res.e2)+bx(res.e3)}</div><div style="font-size:0.7rem; color:#aaa; margin-top:5px;">晚年位</div></div>
+            </div>
+            <table class="el-table">
+                <tr><th>金</th><th>木</th><th>水</th><th>火</th><th>土</th></tr>
+                <tr>
+                    <td class="${res.sc['金']<3?'low-score':''}">${res.sc['金']}</td>
+                    <td class="${res.sc['木']<3?'low-score':''}">${res.sc['木']}</td>
+                    <td class="${res.sc['水']<3?'low-score':''}">${res.sc['水']}</td>
+                    <td class="${res.sc['火']<3?'low-score':''}">${res.sc['火']}</td>
+                    <td class="${res.sc['土']<3?'low-score':''}">${res.sc['土']}</td>
+                </tr>
+            </table>
+            <p style="font-size:0.85rem; color:#ccc; line-height:1.6; margin-top:15px;">
+                ${low.length > 0 ? '💎 <b>晶石建議：</b>' + low.join('、') : '✨ 能量分布均勻'}
+            </p>
+        </div>
+    `;
+}
+
+function showMatch(r1, r2) {
+    const card = document.getElementById('matchCard');
+    card.style.display = 'block';
+    const combo = [r1.n7, r2.n7].sort().join('-');
+    const score = 100 - (Math.abs(r1.n7 - r2.n7) * 7);
+    const desc = MATCH_DESCS[combo] || MATCH_DESCS["default"];
+    
+    card.innerHTML = `
+        <h3 style="margin:0; color:#a29bfe;">💖 靈魂契合度</h3>
+        <div class="match-score">${score}%</div>
+        <p style="max-width:600px; margin: 0 auto; line-height:1.6;">${desc}</p>
+    `;
 }
 </script>
 </body>
