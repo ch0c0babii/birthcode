@@ -22,7 +22,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 星空背景 */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 200%; height: 200%;
             background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)), 
@@ -51,7 +50,6 @@
 
         .person-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
         
-        /* 柔和發光命盤 */
         .map { display: flex; flex-direction: column; align-items: center; margin: 15px 0; }
         .row { display: flex; gap: 10px; margin: 5px 0; }
         .box { 
@@ -73,14 +71,15 @@
         .extra-section { display: flex; justify-content: space-around; font-size: 0.8rem; color: #aaa; margin: 20px 0; text-align: center; }
         .extra-label { margin-top: 8px; color: #eee; font-weight: bold; }
 
-        /* 五行表 */
         .el-table { width: 100%; border-collapse: collapse; margin-top: 15px; border-radius: 10px; overflow: hidden; }
         .el-table th { background: rgba(255,255,255,0.1); padding: 10px; border: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: #ddd; }
         .el-table td { border: 1px solid rgba(255,255,255,0.1); padding: 12px; text-align: center; font-size: 1.2rem; font-weight: bold; }
         .low-score { background: rgba(239, 87, 119, 0.15); color: #ff7675; border: 1px solid rgba(239, 87, 119, 0.3) !important; }
 
-        /* 性格與水晶 */
-        .desc-box { margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; font-size: 0.9rem; line-height: 1.7; border-left: 5px solid var(--main-purple); color: #eee; }
+        .desc-box { margin-top: 20px; padding: 18px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; font-size: 0.9rem; line-height: 1.7; border-left: 5px solid var(--main-purple); color: #eee; }
+        .desc-title { color: var(--main-purple); font-weight: bold; margin-bottom: 5px; font-size: 1rem; border-bottom: 1px solid rgba(108, 92, 231, 0.3); padding-bottom: 5px; }
+        .desc-content { margin-bottom: 12px; }
+        
         .crystal-box { margin-top: 15px; padding: 15px; background: rgba(254, 202, 87, 0.05); border-radius: 12px; border: 1px solid rgba(254, 202, 87, 0.2); }
         .crystal-tag { display: inline-block; background: rgba(254, 202, 87, 0.1); padding: 5px 12px; border-radius: 8px; margin: 4px; font-size: 0.85rem; color: var(--gold); border: 1px solid rgba(254, 202, 87, 0.3); font-weight: bold; }
         
@@ -104,20 +103,64 @@
 </div>
 
 <script>
-// 性格數據庫
-const PERSONALITY = {
-    1: "【1號領袖】獨立具開創性。天生領導者但易自我，需學習團隊合作與傾聽。",
-    2: "【2號溝通】溫和具同理心。擅長協調但易優柔寡斷，需建立自信與果斷力。",
-    3: "【3號創意】熱情極具活力。行動派但情緒起伏大，需培養耐性與穩定心態。",
-    4: "【4號穩定】務實守規、謹慎。極佳執行者但易固執，需嘗試打破框框接受改變。",
-    5: "【5號冒險】嚮往自由、口才佳。適應力強但欠缺專注，需建立規律與毅力。",
-    6: "【6號責任】愛心、追求完美。責任感強但易給人壓力，需學會放鬆與包容缺憾。",
-    7: "【7號博學】愛鑽研、洞察力。智慧型但易顯孤僻，需開放心胸與外界交流。",
-    8: "【8號成就】野心家、具威信。追求成功但掌控欲強，需平衡物質與心靈成長。",
-    9: "【9號夢想】博愛、樂觀大方。理想家稱脫離現實，需加強務實執行力。"
+// 詳細性格分析數據庫
+const PERSONALITY_DETAIL = {
+    1: {
+        title: "【1號領袖】開創與獨立之星",
+        trait: "天生的開拓者，擁有極強的自信與行動力，不喜歡隨波逐流。",
+        strength: "意志堅定、反應靈敏、具冒險精神，能在混亂中指引方向。",
+        lesson: "易過於自我中心、難以聽取建議。需學習「圓融」與「分享權力」。"
+    },
+    2: {
+        title: "【2號溝通】和諧與合作之星",
+        trait: "心思細膩、對美感與情緒有極高敏銳度，是最佳的協調者。",
+        strength: "具同理心、擅長社交、處事圓滑，能化解衝突維持平衡。",
+        lesson: "容易優柔寡斷、依賴他人。需學習「建立個人界限」與「果斷決策」。"
+    },
+    3: {
+        title: "【3號創意】熱情與表達之星",
+        trait: "充滿好奇心與童心，情緒表達直接，擁有感染他人的能量。",
+        strength: "創意豐富、口才極佳、擅長營造氣氛，是社交場合的焦點。",
+        lesson: "情緒起伏大、缺乏耐性。需學習「情緒管理」與「專注於長期目標」。"
+    },
+    4: {
+        title: "【4號穩定】務實與秩序之星",
+        trait: "追求安全感與穩定，做事條理分明，對責任與誠信極其看重。",
+        strength: "執行力強、邏輯嚴密、值得信賴，是團隊中最可靠的後盾。",
+        lesson: "容易墨守成規、固執死板。需學習「靈活變通」與「接受未知」。"
+    },
+    5: {
+        title: "【5號冒險】自由與變革之星",
+        trait: "熱愛自由、討厭束縛，擁有極強的適應力與探索未知的慾望。",
+        strength: "口才出眾、多才多藝、反應極快，能輕易應對各類突發狀況。",
+        lesson: "缺乏穩定性、易感枯燥。需學習「紀律自律」與「深耕單一領域」。"
+    },
+    6: {
+        title: "【6號責任】愛心與療癒之星",
+        trait: "天生具有母性或父性光輝，重視家庭與承諾，對完美有執著。",
+        strength: "責任感強、具療癒能力、樂於助人，能給予他人極大的支持。",
+        lesson: "過於追求完美、愛說教。需學習「放手」與「愛自己多過他人」。"
+    },
+    7: {
+        title: "【7號博學】真理與洞察之星",
+        trait: "天生的思想家，喜歡分析事物背後的邏輯，追求知識與真理。",
+        strength: "洞察力強、冷靜理智、具獨特見解，能看到他人忽略的細節。",
+        lesson: "疑心病重、易顯冷漠。需學習「信任他人」與「將知識轉化為實踐」。"
+    },
+    8: {
+        title: "【8號成就】權威與豐盛之星",
+        trait: "具備極佳的商業直覺與掌控欲，追求物質與精神上的成功。",
+        strength: "具備威信、組織能力強、目標導向，天生具備大將之風。",
+        lesson: "掌控欲過強、易有壓力。需學習「平衡生活」與「精神層面的成長」。"
+    },
+    9: {
+        title: "【9號夢想】博愛與大愛之星",
+        trait: "擁有極高的精神境界與想像力，為人慷慨，具備人道主義精神。",
+        strength: "樂觀、多才多藝、具備服務精神，能帶給世界正向的希望。",
+        lesson: "脫離現實、做事三分鐘熱度。需學習「務實落地」與「堅持到底」。"
+    }
 };
 
-// 20種水晶數據庫（已換走藍磨砂）
 const CRYSTAL_DB = {
     '金': ['白水晶', '鈦晶', '閃靈鑽', '白幽靈'],
     '木': ['綠幽靈', '葡萄石', '天河石', '綠髮晶'],
@@ -145,10 +188,8 @@ function startAnalysis() {
     const d1 = document.getElementById('date1').value;
     const d2 = document.getElementById('date2').value;
     if(!d1) return alert("請選擇生日 A");
-    
     const res1 = solve(d1);
     let html = renderBox(1, res1);
-    
     if(d2) {
         const res2 = solve(d2);
         html += renderBox(2, res2);
@@ -158,7 +199,6 @@ function startAnalysis() {
         document.getElementById('pGrid').classList.remove('dual');
         document.getElementById('matchCard').style.display = 'none';
     }
-    
     document.getElementById('pGrid').innerHTML = html;
     document.getElementById('resultsArea').style.display = 'block';
     window.scrollTo({ top: document.getElementById('resultsArea').offsetTop, behavior: 'smooth' });
@@ -167,16 +207,16 @@ function startAnalysis() {
 function renderBox(id, res) {
     const bx = (v, c='') => `<div class="box ${c}">${v}</div>`;
     const low = Object.keys(res.sc).filter(k => res.sc[k] < 3);
+    const p = PERSONALITY_DETAIL[res.n7];
     
     let cryHtml = low.map(k => {
-        // 隨機取出 2 種水晶
         let selected = [...CRYSTAL_DB[k]].sort(() => 0.5 - Math.random()).slice(0, 2);
-        return `<div style="margin-bottom:8px;"><b>${k}屬性補強：</b>${selected.map(c => `<span class="crystal-tag">${c}</span>`).join('')}</div>`;
+        return `<div style="margin-bottom:8px;"><b>${k}屬性：</b>${selected.map(c => `<span class="crystal-tag">${c}</span>`).join('')}</div>`;
     }).join('');
 
     return `
         <div class="person-box">
-            <div style="background:var(--main-purple); display:inline-block; padding:5px 15px; border-radius:12px; font-size:0.85rem; margin-bottom:20px; font-weight:bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">分析對象 ${id===1?'A':'B'}</div>
+            <div style="background:var(--main-purple); display:inline-block; padding:5px 15px; border-radius:12px; font-size:0.85rem; margin-bottom:20px; font-weight:bold;">對象 ${id===1?'A':'B'}</div>
             <div class="map">
                 <div class="row">${bx(res.n1)+bx(res.n2)+bx(res.n3)+bx(res.n4)}</div>
                 <div class="row">${bx(res.n5)+bx(res.n6)}</div>
@@ -192,10 +232,17 @@ function renderBox(id, res) {
                 <tr><th>金</th><th>木</th><th>水</th><th>火</th><th>土</th></tr>
                 <tr>${["金","木","水","火","土"].map(k => `<td class="${res.sc[k]<3?'low-score':''}">${res.sc[k]}</td>`).join('')}</tr>
             </table>
-            <div class="desc-box"><b>主性格分析：</b><br>${PERSONALITY[res.n7]}</div>
+            
+            <div class="desc-box">
+                <div class="desc-title">${p.title}</div>
+                <div class="desc-content"><b>● 核心特質：</b>${p.trait}</div>
+                <div class="desc-content"><b>● 潛在優勢：</b>${p.strength}</div>
+                <div class="desc-content" style="margin-bottom:0;"><b>● 人生課題：</b>${p.lesson}</div>
+            </div>
+
             <div class="crystal-box">
-                <div style="color:var(--gold); font-size:0.95rem; font-weight:bold; margin-bottom:10px;">💎 能量晶石補充 (每次隨機推薦)</div>
-                <div style="line-height:1.6;">${low.length > 0 ? cryHtml : '<span style="font-size:0.85rem; color:#888;">✨ 能量狀態平衡，建議佩戴白水晶維持磁場。</span>'}</div>
+                <div style="color:var(--gold); font-size:0.95rem; font-weight:bold; margin-bottom:10px;">💎 隨機晶石補充建議</div>
+                <div style="line-height:1.6;">${low.length > 0 ? cryHtml : '<span style="font-size:0.85rem; color:#888;">✨ 能量平衡，建議佩戴白水晶維持磁場。</span>'}</div>
             </div>
         </div>`;
 }
@@ -204,7 +251,7 @@ function showMatch(r1, r2) {
     const card = document.getElementById('matchCard');
     card.style.display = 'block';
     const score = 100 - (Math.abs(r1.n7 - r2.n7) * 8);
-    card.innerHTML = `<h3 style="margin:0; color:var(--gold); letter-spacing:2px;">💖 靈魂契合度深度分析</h3><div style="font-size:3.5rem; font-weight:900; margin:15px 0; text-shadow: 0 0 20px rgba(254, 202, 87, 0.3);">${score}%</div><p style="font-size:0.95rem; max-width:600px; margin:0 auto; color:#ccc; line-height:1.6;">${score > 80 ? '你們的頻率非常接近，像是一面鏡子，能深度理解彼此的內心世界。' : '你們性格互補，雖然思維方式不同，但正是這種差異讓生活更豐富。'}</p>`;
+    card.innerHTML = `<h3 style="margin:0; color:var(--gold);">💖 靈魂契合深度分析</h3><div style="font-size:3.5rem; font-weight:900; margin:15px 0;">${score}%</div><p style="font-size:0.95rem; max-width:600px; margin:0 auto; color:#ccc;">${score > 80 ? '頻率極度和諧，是難得的靈魂伴侶。' : '性格具互補性，需理解彼此的特質方能長久。'}</p>`;
 }
 </script>
 </body>
