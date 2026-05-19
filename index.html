@@ -8,18 +8,30 @@
         :root { --main-purple: #DCD6F7; --accent-pink: #FFB7B2; --gold: #FFDAC1; --font-family: "Microsoft JhengHei", sans-serif; }
         body { font-family: var(--font-family); background: radial-gradient(circle at 50% 50%, #1e272e 0%, #0c1445 50%, #050505 100%); background-attachment: fixed; color: #fff; margin: 0; padding: 10px; display: flex; justify-content: center; min-height: 100vh; }
         .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); padding: 20px; border-radius: 30px; width: 100%; max-width: 900px; border: 1px solid rgba(255, 255, 255, 0.2); box-sizing: border-box; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        
+        /* 模式切換頁籤樣式 */
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #ccc; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: all 0.3s; }
+        .tab-btn.active { background: #7FB3D5; color: #fff; border-color: #7FB3D5; box-shadow: 0 0 10px rgba(127,179,213,0.5); }
+        
         .input-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 20px; }
         input { padding: 12px; border-radius: 12px; border: none; background: #B9FBC0; color: #444; font-size: 16px; width: 100%; box-sizing: border-box; }
         button.primary-btn { background: #7FB3D5; color: #fff; border: none; padding: 15px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        
         .people-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 768px) { .people-grid.dual { grid-template-columns: 1fr 1fr; } }
         .person-box { background: rgba(255, 255, 255, 0.08); padding: 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); }
-        .map { display: flex; flex-direction: column; align-items: center; margin: 15px 0; }
+        
+        /* 折疊星圖樣式 */
+        .map-toggle-btn { background: rgba(255, 255, 255, 0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 15px; border-radius: 10px; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px; width: 100%; font-weight: bold; transition: all 0.3s; }
+        .map-toggle-btn:hover { background: rgba(255, 255, 255, 0.25); }
+        .map-container { display: none; flex-direction: column; align-items: center; margin: 15px 0; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
         .row { display: flex; gap: 10px; margin: 5px 0; }
         .box { width: 45px; height: 45px; border: 2px solid #00d2ff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border-radius: 12px; font-weight: bold; background: rgba(0, 20, 60, 0.6); color: #00d2ff; }
         .main-num { border: 3px solid #ff4d4d; color: #ff4d4d; background: rgba(60, 0, 0, 0.6); box-shadow: 0 0 15px rgba(255, 77, 77, 0.8); }
+        
         .desc-box { margin-top: 15px; padding: 15px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; font-size: 0.85rem; border-left: 5px solid var(--main-purple); }
-        .desc-title { color: var(--main-purple); font-weight: bold; margin-bottom: 8px; }
+        .desc-title { color: var(--main-purple); font-weight: bold; margin-bottom: 8px; font-size: 1rem; }
         .core-desc { background: rgba(255, 183, 178, 0.15); border-left: 5px solid var(--accent-pink); }
         .crystal-tag { padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; margin: 3px; display: inline-block; color: #444; }
         .tag-金 { background: #F5F5F5; } .tag-木 { background: #C8E6C9; } .tag-水 { background: #BBDEFB; } .tag-火 { background: #FFCDD2; } .tag-土 { background: #FFF9C4; }
@@ -33,24 +45,54 @@
 <body>
 <div class="card">
     <h2 style="text-align:center; color: var(--main-purple);">✨ Chocotarot:生命密碼分析 ✨</h2>
+    
+    <div class="tabs">
+        <button id="tabSingle" class="tab-btn active" onclick="switchMode('single')">👤 單人密碼分析</button>
+        <button id="tabDual" class="tab-btn" onclick="switchMode('dual')">💖 雙人合盤分析</button>
+    </div>
+
     <div class="input-group">
         <input type="date" id="date1">
-        <input type="date" id="date2" placeholder="生日 B (合盤用)">
+        <input type="date" id="date2" style="display:none;">
         <button class="primary-btn" onclick="startAnalysis()">啟動命運星圖分析</button>
     </div>
+    
     <div id="resultsArea" style="display:none;">
         <div id="pGrid" class="people-grid"></div>
         <div id="matchCard" style="display:none; margin-top:20px; text-align:center; background:rgba(255,255,255,0.1); padding:20px; border-radius:20px; border:2px dashed var(--main-purple);"></div>
     </div>
 </div>
 <script>
+let currentMode = 'single'; // 記錄當前模式
+
+function switchMode(mode) {
+    currentMode = mode;
+    const tabSingle = document.getElementById('tabSingle');
+    const tabDual = document.getElementById('tabDual');
+    const date2 = document.getElementById('date2');
+    
+    // 清空歷史數據與隱藏結果
+    document.getElementById('resultsArea').style.display = 'none';
+
+    if (mode === 'single') {
+        tabSingle.classList.add('active');
+        tabDual.classList.remove('active');
+        date2.style.display = 'none';
+        date2.value = '';
+    } else {
+        tabDual.classList.add('active');
+        tabSingle.classList.remove('active');
+        date2.style.display = 'block';
+    }
+}
+
 const CORE_DB = {
     "1": { t: "1 號：天生的領導者", c: "行動力強的天生領導者，帶著自信與幹勁，展現堅定的決斷力與勇氣。擅長冒險，能在困境中率先衝出一條路。", b: "領導力強、獨立自主、行動力佳、企圖心旺盛", d: "固執己見、急躁衝動、過度好強、自我中心" },
     "2": { t: "2 號：溫和的協調者", c: "安靜可靠，擅長傾聽與觀察，懂得顧全大局，喜歡透過合作而非競爭來完成目標。帶有柔和的力量。", b: "溫柔體貼、重視人際和諧、富有同理心、擅長團隊合作", d: "過於在意眼光、猶豫不決、缺乏獨立性、牆頭草" },
     "3": { t: "3 號：創意靈魂的表達者", c: "充滿創意與表達欲，能讓氛圍變得輕鬆。擅長將靈感化為具體行動。需在創意與紀律間找到平衡。", b: "樂觀開朗、社交能力好、幽默感、富有創意美感", d: "三分鐘熱度、情緒化、過愛表達、缺乏耐心" },
     "4": { t: "4 號：務實的執行者", c: "細心、紀律與責任感，讓計畫落地實踐。嚴謹是優點，但有時過於保守不願承擔風險。", b: "理性紀律、務實可靠、耐心專注、責任感強", d: "過於保守嚴肅、不知變通、完美主義、缺乏想像力" },
     "5": { t: "5 號：熱愛自由的冒險家", c: "渴求自由，憑直覺跳脫既有框架。勇敢且好奇，能快速適應環境。需在自由與責任間平衡。", b: "熱愛自由、適應力強、冒險精神、機智多才", d: "浮躁衝動、喜新厭舊、漂泊不定、不滿現實" },
-    "6": { t: "6 號：溫柔的守護者", c: "天生帶著溫柔與責任感，默默把照顧他人視為任務。容易忽略自己，需要學習適度放手。", b: "責任感強、值得信賴、關懷體貼、忠誠穩定", d: "控制慾強、情緒敏感、保守封閉、得失心重" },
+    "6": { t: "6 號：溫源的守護者", c: "天生帶著溫柔與責任感，默默把照顧他人視為任務。容易忽略自己，需要學習適度放手。", b: "責任感強、值得信賴、關懷體貼、忠誠穩定", d: "控制慾強、情緒敏感、保守封閉、得失心重" },
     "7": { t: "7 號：深邃的洞察者", c: "沉浸於內在世界，具備極強的洞察力與分析力。不滿足於表象，追求精神上的成長與真相。", b: "洞察力強、獨立冷靜、精神成長、邏輯清晰", d: "鑽牛角尖、孤立感強、挑剔苛求、不善表達" },
     "8": { t: "8 號：目標明確的管理者", c: "強烈的目標意識與掌控力，能把夢想化為成果。不怕挑戰，但有時過於嚴厲或難以妥協。", b: "企圖心強、領導力佳、堅毅果斷、執行效率高", d: "控制欲強、驕傲自大、缺乏耐心、急於成功" },
     "9": { t: "9 號：博愛的夢想家", c: "帶有天生的使命感，渴望改善環境。需學會承認現實的限制，並在細小的日常裡實踐理想。", b: "遠見宏觀、樂於付出、公平正義、樂觀思維", d: "不切實際、容易分心、佔有慾強、過度自戀" }
@@ -136,31 +178,65 @@ function solve(dStr) {
     [n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,p1,p2,p3,e1,e2,e3].forEach(x => { if(ref[x]) sc[ref[x]]++; });
     return { n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, p1, p2, p3, e1, e2, e3, sc };
 }
+function toggleMap(id) {
+    const el = document.getElementById(`map-${id}`);
+    const btn = document.getElementById(`btn-${id}`);
+    if (el.style.display === 'none' || el.style.display === '') {
+        el.style.display = 'flex';
+        btn.innerText = '🔼 隱藏數字命運星圖';
+    } else {
+        el.style.display = 'none';
+        btn.innerText = '🔽 展開觀看數字命運星圖';
+    }
+}
 function startAnalysis() {
-    const d1 = document.getElementById('date1').value, d2 = document.getElementById('date2').value;
-    if(!d1) return alert("請輸入生日 A");
-    const res1 = solve(d1); let html = renderBox(1, res1);
-    if(d2) {
-        const res2 = solve(d2); html += renderBox(2, res2);
+    const d1 = document.getElementById('date1').value;
+    const d2 = document.getElementById('date2').value;
+    
+    if(!d1) return alert("請輸入第一位生日日期");
+    
+    // 依據當前模式生成對應結果
+    if(currentMode === 'single') {
+        const res1 = solve(d1);
+        document.getElementById('pGrid').innerHTML = renderBox(1, res1);
+        document.getElementById('pGrid').classList.remove('dual');
+        document.getElementById('matchCard').style.display = 'none';
+    } else {
+        if(!d2) return alert("請輸入第二位生日(合盤用)");
+        const res1 = solve(d1);
+        const res2 = solve(d2);
+        let html = renderBox(1, res1) + renderBox(2, res2);
+        document.getElementById('pGrid').innerHTML = html;
         document.getElementById('pGrid').classList.add('dual');
+        
         const score = 100 - (Math.abs(res1.n7 - res2.n7) * 8);
+        let cmt = score >= 90 ? "你們是命定般的靈魂伴侶，能量極度契合，溝通無礙且能互相成就。" :
+                  score >= 75 ? "雙方性格互補且充滿吸引力，只要彼此包容，便能建立深厚連結。" :
+                  score >= 55 ? "關係充滿火花但也伴隨挑戰。建議多傾聽對方需求，用耐心化解差異。" : "性格特質迥異，相處需要更多尊重與空間，建議先以朋友角度出發。";
         document.getElementById('matchCard').style.display = 'block';
-        document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple)">💖 契合度：${score}%</h3>`;
-    } else { document.getElementById('pGrid').classList.remove('dual'); document.getElementById('matchCard').style.display = 'none'; }
-    document.getElementById('pGrid').innerHTML = html; document.getElementById('resultsArea').style.display = 'block';
+        document.getElementById('matchCard').innerHTML = `<h3 style="color:var(--main-purple); margin:0 0 10px 0;">💖 契合度評分：${score}%</h3><p style="font-size:0.9rem; margin:0; line-height:1.5;">${cmt}</p>`;
+    }
+    document.getElementById('resultsArea').style.display = 'block';
 }
 function renderBox(id, res) {
     const bx = (v, c='') => `<div class="box ${c}">${v}</div>`, core = CORE_DB[String(res.n7)], low = Object.keys(res.sc).filter(k => res.sc[k] < 3);
     const combos = [
-        {n: `${res.p3}${res.p2}${res.p1}`, t: getC(res.p3, res.p2, res.p1)},
-        {n: `${res.n7}${res.n8}${res.n9}`, t: getC(res.n7, res.n8, res.n9)},
-        {n: `${res.n8}${res.n9}${res.n10}`, t: getC(res.n8, res.n9, res.n10)},
-        {n: `${res.e1}${res.e2}${res.e3}`, t: getC(res.e1, res.e2, res.e3)}
+        {t: getC(res.p3, res.p2, res.p1)},
+        {t: getC(res.n7, res.n8, res.n9)},
+        {t: getC(res.n8, res.n9, res.n10)},
+        {t: getC(res.e1, res.e2, res.e3)}
     ];
+    
+    // 依模式決定標題名稱
+    const labelTitle = currentMode === 'single' ? '個人密碼分析報告' : `合盤對象 ${id===1?'A':'B'}`;
+
     return `
         <div class="person-box">
-            <div style="background:var(--main-purple); color:#444; padding:4px 15px; border-radius:10px; font-size:0.8rem; margin-bottom:10px; font-weight:bold; display:inline-block;">對象 ${id===1?'A':'B'}</div>
-            <div class="map">
+            <div style="background:var(--main-purple); color:#444; padding:4px 15px; border-radius:10px; font-size:0.8rem; margin-bottom:15px; font-weight:bold; display:inline-block;">${labelTitle} (主性格 ${res.n7} 號)</div>
+            
+            <button id="btn-${id}" class="map-toggle-btn" onclick="toggleMap(${id})">🔽 展開觀看數字命運星圖</button>
+            
+            <div id="map-${id}" class="map-container">
                 <div class="row">${bx(res.n1)+bx(res.n2)+bx(res.n3)+bx(res.n4)}</div>
                 <div class="row">${bx(res.n5)+bx(res.n6)}</div>
                 <div class="row">${bx(res.n7, 'main-num')}</div>
@@ -168,25 +244,31 @@ function renderBox(id, res) {
                 <div class="row">${bx(res.n10)}</div>
                 <div class="row" style="margin-top:20px;">${bx(res.p3)+bx(res.p2)+bx(res.p1)} &nbsp;&nbsp; ${bx(res.e1)+bx(res.e2)+bx(res.e3)}</div>
             </div>
+
             <div class="desc-box core-desc">
                 <div class="desc-title" style="color:#FF7675;">🌟 中心位人格特質</div>
                 <div style="font-weight:bold; font-size:1rem; margin-bottom:5px;">${core.t}</div>
-                <div style="margin-bottom:8px;">${core.c}</div>
-                <div style="font-size:0.8rem;"><b>• 光明面：</b>${core.b}</div>
+                <div style="margin-bottom:8px; line-height:1.4;">${core.c}</div>
+                <div style="font-size:0.8rem; margin-top:5px;"><b>• 光明面：</b>${core.b}</div>
                 <div style="font-size:0.8rem;"><b>• 黑暗面：</b>${core.d}</div>
             </div>
+
             <div class="desc-box">
                 <div class="desc-title">✨ 聯合數字解析</div>
-                ${combos.filter(c => c.t).map(c => `<div style="margin-bottom:8px;"><b>[${c.n}]</b> ${c.t}</div>`).join('')}
+                ${combos.filter(c => c.t).map(c => `<div style="margin-bottom:10px; line-height:1.4;">• ${c.t}</div>`).join('')}
             </div>
+
             <div class="crystal-section" style="margin-top:15px; padding:15px; background:rgba(255,255,255,0.05); border-radius:15px; border-left: 5px solid var(--gold);">
                 <div class="desc-title" style="color:var(--gold)">💎 五行能量補強</div>
+                <div style="margin-bottom:8px; font-size:0.8rem;">建議配戴水晶調和能量：</div>
                 ${low.map(el => CRY_DB[el].map(s => `<span class="crystal-tag tag-${el}">${s}</span>`).join('')).join('')}
             </div>
+
             <table class="el-table">
                 <tr><th>金</th><th>木</th><th>水</th><th>火</th><th>土</th></tr>
                 <tr>${["金","木","水","火","土"].map(k => `<td class="${res.sc[k]<3?'low-score':''}">${res.sc[k]}</td>`).join('')}</tr>
             </table>
+
             <a href="https://wa.me/85263870731" class="whatsapp-btn" target="_blank">詳細解說或訂造五行水晶</a>
         </div>`;
 }
